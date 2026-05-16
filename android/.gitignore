@@ -1,6 +1,7 @@
 gradle-wrapper.jar
 /.gradle
 /captures/
+/problem-reports.html
 /local.properties
 GeneratedPluginRegistrant.java
 .cxx/
