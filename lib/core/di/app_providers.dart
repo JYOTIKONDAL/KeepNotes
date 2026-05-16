@@ -19,7 +19,7 @@ class AppProviders extends StatelessWidget {
       providers: [
         Provider<IsarService>(create: (_) => IsarService()),
         ProxyProvider<IsarService, NoteRepository>(
-          update: (_, isarService, __) => NoteRepositoryImpl(isarService),
+          update: (_, isarService, _) => NoteRepositoryImpl(isarService),
         ),
         ChangeNotifierProvider<NotesListViewModel>(
           create: (context) =>
@@ -31,11 +31,13 @@ class AppProviders extends StatelessWidget {
   }
 
   /// Creates a [NoteEditorViewModel] for the note editor route.
-  static ChangeNotifierProvider<NoteEditorViewModel> noteEditorProvider({
+  static Widget noteEditorProvider({
     required NoteEditorViewModel viewModel,
+    required Widget child,
   }) {
     return ChangeNotifierProvider<NoteEditorViewModel>.value(
       value: viewModel,
+      child: child,
     );
   }
 }

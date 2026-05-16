@@ -6,7 +6,16 @@ import '../../models/note_model.dart';
 
 /// Opens and exposes the singleton Isar database instance.
 class IsarService {
-  IsarService();
+  /// [directoryPath] overrides the documents directory (used in unit tests).
+  /// [instanceName] isolates Isar files when running tests in parallel.
+  IsarService({
+    String? directoryPath,
+    String? instanceName,
+  })  : _directoryPath = directoryPath,
+        _instanceName = instanceName ?? AppConstants.isarInstanceName;
+
+  final String? _directoryPath;
+  final String _instanceName;
 
   Isar? _isar;
 
@@ -15,11 +24,12 @@ class IsarService {
       return _isar!;
     }
 
-    final directory = await getApplicationDocumentsDirectory();
+    final directoryPath = _directoryPath ??
+        (await getApplicationDocumentsDirectory()).path;
     _isar = await Isar.open(
       [NoteModelSchema],
-      directory: directory.path,
-      name: AppConstants.isarInstanceName,
+      directory: directoryPath,
+      name: _instanceName,
     );
     return _isar!;
   }
